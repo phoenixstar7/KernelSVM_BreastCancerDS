@@ -12,7 +12,6 @@
 
 % Non-IEEE recommendations:
 \usepackage{graphicx}
-\usepackage{amssymb}
 \usepackage{epstopdf}
 \usepackage{multirow}
 \usepackage{comment}
@@ -24,18 +23,15 @@
 \usepackage{footnote}
 %\documentclass[11pt, twoside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
 \usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
-\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or . 
 %\geometry{landscape}                		% Activate for for rotated page geometry
-\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
-\usepackage{graphicx}				
+\usepackage[parfill]{parskip}  % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{amssymb}
 \usepackage{color}
-%\usepackage{matlab-prettifier}
 \usepackage{verbatim}
 \usepackage{fancyvrb}
 \usepackage{multicol}
 \usepackage{amsmath}
-\usepackage{cite}
 \usepackage{bm}
 \usepackage{hyperref} 
 
@@ -64,16 +60,11 @@ HIlbert space, Kernels, XOR, Fibonacci, SVM.
 
 
 \section{Kernels: Theory and Background}
-Most of the real-world problems are not straight forward and we assume them as linear which is not true in many cases. They are non-linear and have complex relationships between the variables or parameters we take in to solve them. Some algorithms remarkably transform these hard relations to another set of analytic functions and solve them in a different dimension. A mathematically precise core function that effectively does this sort of mapping also called as \textit{Kernel trick} can really change our view to solving and approaching these kind of problems. We can work linear approaches intuitively by passing the data  through non-linear transformation and then work with them non-linearly.If an algorithm is linear, a dual expression can be constructed that expresses the estimator function and parameters as a function of dot products between data. As we know, functions that are dot products in higher dimension Hilbert space. From the \textit{Volterra filter} example,
-the transformation of the input space into a polynomial function in Hilbert space solves our problem of estimating the filter in higher space . Equation \ref{eq:volterra} illustrates an order 3 Volterra filter \cite{kernme}
+Most of the real-world problems are not straight forward and we assume them as linear which is not true in many cases. They are non-linear and have complex relationships between the variables or parameters we take in to solve them. Some algorithms remarkably transform these hard relations to another set of analytic functions and solve them in a different dimension. 
 
+A mathematically precise core function that effectively does this sort of mapping also called as \textit{Kernel trick} can really change our view to solving and approaching these kind of problems. All linear methodologies can be transformed in asuch a way that we can access them through non-linear transformation in higher dimensional space. Usually we have the dual expression constructed from the estimator function and parameters as a function of dot products between data. As we know from our class example \textit{Kernel trick} to demonstrate that \textit{Volterra filter}, the transformation of the input space into a polynomial function in Hilbert space \cite{kernme} solves our problem of estimating the filter in higher space. 
 
-\begin{equation}
-\mathbf{z}_n = [1, x[n], x[n-1], x^2[n], x^2[n-1], x[n] x[n-1], x[n]^3, ...]^T
-\label{eq:volterra}
-\end{equation}
-
-From Equation \ref{eq:volterra} we can then reformulate the problem as Equation \ref{eq:reform} by stating that the function $\hat{y}[n]$ is an approximation of the actual output
+We can then reformulate the problem as Equation \ref{eq:reform} by stating that the function $\hat{y}[n]$ is an approximation of the actual output
 given by some parameters multiplied by the input data. The problem, however, with this approach is the \textit{Curse of Dimensionality}.
 
 \begin{equation}
@@ -81,17 +72,14 @@ given by some parameters multiplied by the input data. The problem, however, wit
 \label{eq:reform}
 \end{equation}
 
- For a third Voltera filter, we have to pass from a space of 2D dimension, it requries $fact(5, 3) = 10$, but if the input space is in 5D dimensions, then we end up with 56 elements needed which is quite complicated to visualize as our brains are adopted to 3D and cannot go beyond.
- When we increase the number of dimensions, the number of elements begins to explode and is therefore not practical for computation
- for higher order spaces. Hence why we visual creatures come up with this textit{kernel trick} to help solve this problem. The transformation can be generalized by $\mathbf{z}_n = \mathbf{\varphi}(\mathbf{x}_n)$ 
- which in turn allows us to rewrite the estimator function as shown in Equation \ref{eq:rewrite}. 
- 
+Its an unique example to learn from a third order Voltera filter to study Hilbert space transformation in higher dimension as it invovles transferring data from a space of 2D to 5D and ends up in complex calculations involved which we cannot comprehend as we are visual creatures bounded by 3D space as our brains cannot go beyond.
+  
  \begin{equation}
 \hat{y}[n] = \mathbf{w}^T\mathbf{\varphi}(\mathbf{x}_n) + b
 \label{eq:rewrite}
 \end{equation}
 
-To this Equation \ref{eq:rewrite} we choose a function for $\varphi(\cdot)$, the higher dimensional Hilbert space \cite{kernelmethods}. In 
+From equation \ref{eq:rewrite} we choose a function for $\varphi(\cdot)$, the higher dimensional Hilbert space \cite{kernelmethods}. In 
 the case of this paper, we have chosen to use the minimum mean square error (MMSE) criterion and a Gaussian Kernel with $\sigma = 1$. From the properties of Hilbert space it is known that functions are dot products in higher dimensions as that's an vital criterion thus verifying the two other properties \textit{Completeness} and \textit{Separability} of the higher space. Every space that satisfies these two properties, will insure that Hilbert Spaces are isometrically isomorphic. To state it more explicitly, a kernel function is one that satisfies Mercer's Theorem \cite{kernelmethods}. The gaussian equation 
 used is shown in Equation \ref{eq:gaus_basis}.
 
@@ -143,11 +131,12 @@ From here, we simply need to take the inner product of $\mathbf{\widetilde{\varp
  &= \mathbf{1}_{N \times N} + \mathbf{\varphi}^T\mathbf{\varphi}
 \end{align*}
 
-In order to calculate the bias using the Hilbert space, we first
-build the bias into the $\varphi$ variable so that we don't have to treat the equation separately. 
+Also we had a small diagonal matrix that is the regularization to minimize the complexity of the classifier.In order to calculate the bias using the Hilbert space, we first build the bias into the $\varphi$ variable so that we don't have to treat the equation separately. 
+Also a matrix \&I is necessary to compute the bias b,
+and give an expression of this parameter as a function of the dual
+parameter  to have $\mathbf{\alpha} = (\mathbf{\widetilde{K}} - \gamma \mathbf{I})^{-1} \mathbf{y}$ 
+instead of $\mathbf{\widetilde{K}}^{-1}\mathbf{y}$. Obviously,$\mathbf{\widetilde{K}}$ is not well defined mathematically or pre-conditioned.
 
-It is also interesting to look at why it is necessary to have $\mathbf{\alpha} = (\mathbf{\widetilde{K}} - \gamma \mathbf{I})^{-1} \mathbf{y}$ 
-instead of $\mathbf{\widetilde{K}}^{-1}\mathbf{y}$. The reason for this is that we cannot guarantee that $\mathbf{\widetilde{K}}$ is well posed and pre-conditioned.
 For example, the gamma value multiplied by the Identity matrix (I) makes sure that we have enough data points than dimension, otherwise it would lead to more noise in the data generation process. This also leads to another problem of overfitting the data and we need to add penalty term or a regularizer. Usually we can add L1 norm regularization also called as LASSO or else we can go for \emph{L2 norm regualarization} also known as \emph{Ridge Regression}. This is expressed by means of a regularizer, an extra term which controls the estimator function boundaries and avoid over-fitting by minimizing the coefficients of the solution with slight adjustment of parameter c. In the case of ridge regression this allows you to choose better fit or lower coefficients.
 The \emph{ridge regression} corresponds to solving the following equation: 
 
@@ -187,15 +176,11 @@ $\lambda\bm{I}_N$ is just $\gamma\bm{I}_N$ which is used as a regularization par
 of the system. 
 
 \section{SVM Kernels: Methodology and Experiments}
-In this section, we will deal about how SVM experiments with XOR Toy problem and Double Fibonacci spiral. Additionally, the Breast Cancer dataset from UCI is also studied to learn more about kernels and how they analyze the real-world dataset. In the first part of this section, we want to look at how well the SVM works using
-100 data points for training, and then 1000 points for testing. We will
-then validate the methods using \textit{MATLABS}'s v-fold function. The
-second part is to then investigate the Double Fibonacci spiral applying
-the same techniques as mentioned above. For the \textbf{Breast Cancer UCI dataset}, I applied k-fold cross validation and sampled the training and testing datasets with \textit{R Studio}, the standard language for Statistics and used in Data Analysis. I have given all the results for the three experiments and analyzed them accordingly.
+In this section, we will deal about how SVM experiments with XOR Toy problem and Double Fibonacci spiral. Additionally, the Breast Cancer dataset from UCI is also studied to learn more about kernels and how they analyze the real-world dataset. We train our SVM with 100 data points and test it on 1000 and use k-fold(5) cross-validation for verification.We will then validate the methods using \textit{MATLABS}'s v-fold function. Next, we apply the same technique on Double Fibonacci spiral and produce the plots. For the \textbf{Breast Cancer UCI dataset}, I applied k-fold cross validation and sampled the training and testing datasets with \textit{R Studio}, the standard language for Statistics and used in Data Analysis. I have given all the results for the three experiments and analyzed them accordingly.
 
 \subsection{XOR problem}
-We begin this section by first illustrating the \textit{XOR} problem. In figure 
-\ref{fig:XOR} \& \ref{fig:MMSE}, we have labeled 4 set of points with one class in red, and the other class in blue constructed using Gaussian kernel and MMSE criterion. From this figure, we can see that there is no obvious way to separate the data in 2D dimensional space. So now we are going to pass it to Hilbert space based on the training set of points and solve them in higher dimension with unseen testing data points to generate the XOR function and see how the dual parameter $\alpha$s varies.  
+The famous \textit{XOR} Toy problem is illustrated in this section. In figure 
+\ref{fig:XOR} \& \ref{fig:MMSE}, we have labeled 4 set of points with one class in red, and the other class in blue constructed using Gaussian kernel and MMSE criterion. From this figure, we cannot see any ideal hyperplane separting them correctly. So now we are going to pass it to Hilbert space based on the training set of points and solve them in higher dimension with unseen testing data points to generate the XOR function and see how the dual parameter $\alpha$s varies.  
 
 \begin{figure}[ht!]
 \centering
@@ -221,11 +206,12 @@ in Figure \ref{fig:SVM_XOR_HYP}.
 \label{fig:SVM_XOR_HYP} 
 \end{figure}
 
-With the test points we cross validated to test its performance. To do this, we pass the training model to saved dual parameter $\bm{\alpha}$ which we calculated in the training phase. The output from the k-fold(k=5) cross-validation of this operation the classifier is working very well with a classification rate of nearly 96\%. 
+With the test points we cross validated to test its performance. We then use the SVM trained model with the dual parameter $\bm{\alpha}$ estimated in the training set is then put with the prediction set with the new dataset.The output from the k-fold(k=5) cross-validation of this operation the classifier is working very well with a classification rate of nearly 96\%. 
 
 
 \subsection{Fibonacci Spiral Problem}
 The Double Fibonacci spiral \ref{fig:fibo_spiral} is a nice example of non-linear classification and with RBF kernels it would make a special case study of how the hyperplane is going to be projected with such complex datasets.
+The only problem with the double spiral is the optimal separation of the blue and red points in every corner is going to take several iterations as the RBF kernel computes the dot products for the training model we setup earlier. Then we run the testing phase and see how unseen points are being separated by the hyperplane. The contours of the classifier is also plotted along with the error rate calculation.
 
 \begin{figure}[h!]
   \centering
@@ -245,8 +231,6 @@ The Double Fibonacci spiral \ref{fig:fibo_spiral} is a nice example of non-linea
 		\label{fig:fibo_spiral_hyp}} 
 		\end{figure}
 		
-The only problem with the double spiral is the optimal separation of the blue and red points in every corner is going to take several iterations as the RBF kernel computes the dot products for the training model we setup earlier. Then we run the testing phase and see how unseen points are being separated by the hyperplane. The contours of the classifier is also plotted along with the error rate calculation.
-
 Figure \ref{fig:perf} illustrates how varying different values of
 sigma and cost changes the error rate. The gamma, sigma and the error rate value achieved for Fibonacci spiral are 0.0001, 0.043, 0.33 respectively. To illustrate what these values mean for actually separating the data, we show a plot of a good sigma, cost pair and a bad one. The dark blue values indicate a very low error rate. Choosing the optimal values of sigma and cost is another problem which is achieved after many iterations in MATLAB. The \textbf{RStudio} has different tuning options which help to optimize the SVM kernel we train and test samples
 Lower values of sigma lead to over-fitting the data and choosing larger values might lead to separating the plane might not occur accurately.
@@ -258,12 +242,7 @@ Lower values of sigma lead to over-fitting the data and choosing larger values m
 \label{fig:perf} 
 \end{figure}
 
-This proves that even thought we can have perfect training error, the testing
-error can be much worse. This is due to a phenomenon called overfitting. In fact, 
-you can choose a sigma and a cost such that you will always be able to get 
-100\% training accuracy, but the model will not be good when faced with fitting
-the testing data. 
-
+We have to carefully assign the values of sigma, cost to the trained model so that the new predictions are not overfitted. We can do a local search optimization to find the best values of these parameters as we are more concerned about the testing accuracy and not training accuracy.
 
 \subsection{A Short History of Prognosis Breast Cancer UCI Dataset}
 This work grew out of the desire by Dr. Wolberg to accurately diagnose breast masses based solely on a Fine Needle Aspiration (FNA). He identified nine visually assessed characteristics of an FNA sample which he considered relevant to diagnosis. In collaboration with Prof. Mangasarian and two of his graduate students, Rudy Setiono and Kristin Bennett, a classifier was constructed using the multisurface method (MSM) of pattern separation on these nine features that successfully diagnosed 97 of new cases. The resulting data set is well-known as the \textbf{ Wisconsin Breast Cancer Data}.
